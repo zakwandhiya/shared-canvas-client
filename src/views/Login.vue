@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-center align-center fill-height">
+  <div class="d-flex justify-center align-center fill-parent">
     <v-card 
       class="pa-6 mx-auto"
       elevation="6"
@@ -64,9 +64,9 @@ export default class Login extends Vue {
   ]
 
   validate () {
-    // eslint-disable-next-line
-    this.$refs.form.validate()
+    (this.$refs.form as Vue & { validate: () => boolean }).validate()
     if(this.valid) {
+      console.log(this.name)
       this.$router.push({ name: 'Draw', params: { username: this.name, room: this.room } })
     }
   }

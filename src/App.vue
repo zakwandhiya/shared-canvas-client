@@ -14,3 +14,10 @@ export default Vue.extend({
   name: 'App',
 });
 </script>
+
+<style>
+.fill-parent{
+  width: 100%;
+  height: 100%;
+}
+</style>

@@ -32,22 +32,20 @@ import io from 'socket.io-client'
 
 @Component
 export default class DrawUI extends Vue {
-  // @Prop() private sharedCoordinate!: User;
   isMouseDown = false
   isPotrait = false
   canvas!: HTMLCanvasElement
   context!: CanvasRenderingContext2D
   sharedCoordinate: Record<string, CoordinateModel> = {}
-  canvasSize = window.screen.width / window.screen.height < 1.2 ? window.screen.width : window.screen.height
+  canvasSize = window.innerWidth / window.innerHeight < 1.2 ? window.innerWidth : window.innerHeight
   localCoordinate!: CoordinateModel
   selectedColor = '#EE44AA'
-  socket = io('192.168.0.153:3000')
+  socket = io(process.env.SERVER || '192.168.0.153:3000')
   colors: string[] = ['#3F51B5', '#2196F3','#00BCD4','#4CAF50','#FFC107', '#F44336', '#E91E63', '#EE44AA']
 
   mounted () {
     this.canvas = document.getElementById('canvas') as HTMLCanvasElement
     this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D
-    console.log('height '+window.screen.height + '         width '+window.screen.width )
     window.addEventListener('resize', () => {
       this.onResize()
     });
@@ -61,16 +59,13 @@ export default class DrawUI extends Vue {
   }
 
   onResize () {
-    const ratio = window.screen.width / window.screen.height
-    console.log('ratio '+ratio + '      height '+window.screen.height + '         width '+window.screen.width )
+    const ratio = window.innerWidth / window.innerHeight
     if (ratio < 1.2) {
-      this.canvasSize = window.screen.width
+      this.canvasSize = window.innerWidth
       this.isPotrait = true
-      console.log('potrait')
     } else {
-      this.canvasSize = window.screen.height
+      this.canvasSize = window.innerHeight
       this.isPotrait = false
-      console.log('ladnscape')
     }
 
   }
@@ -203,10 +198,3 @@ export default class DrawUI extends Vue {
 }
 
 </script>
-
-<style scoped>
-.fill-parent{
-  width: 100%;
-  height: 100%;
-}
-</style>
